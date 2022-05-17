@@ -73,8 +73,15 @@ export default {
           console.log(tcontent);
           const re = RegExp("(.+):(.+)", "g");
           const matches = [...tcontent.matchAll(re)];
-          const target = matches[0][1].trim();
-          const label = matches[0][2].trim();
+          let target = "";
+          let label = "";
+          if (matches[0].length >= 3) {
+            target = matches[0][1].trim();
+            label = matches[0][2].trim();
+          } else {
+            target = tcontent;
+          }
+
           myNodes.push({ id: myNodes.length, label: target });
           myNodes = this.uniq(myNodes);
 
