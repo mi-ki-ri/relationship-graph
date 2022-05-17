@@ -31,7 +31,7 @@ export default {
       for (const elem of array) {
         if (
           uniquedArray.findIndex((val) => {
-            console.log("label", elem.label, val.label)
+            console.log("label", elem.label, val.label);
             return elem.label == val.label;
           }) == -1
         )
@@ -86,22 +86,36 @@ export default {
               return val.label == target;
             }),
             arrows: "to",
-            width: 1,
+            width: 2,
             label: label,
           });
         });
       });
 
-      var nodes = new DataSet(myNodes);
-      var edges = new DataSet(myEdges);
+      const nodes = new DataSet(myNodes);
+      const edges = new DataSet(myEdges);
 
-      var container = document.getElementById("canvasDiv");
-      var data = {
+      const container = document.getElementById("canvasDiv");
+      const data = {
         nodes: nodes,
         edges: edges,
       };
-      var options = {};
-      var network = new Network(container, data, options);
+      const options = {
+        physics: true, // 物理シミュレーションをオフにする
+        nodes: {
+          shape: "box", // ノードの形をellipseからboxに
+          size: 100, //　ノードの大きさ
+          font: {
+            color: "white", // タグなしのノードの文字の色
+          },
+          color: "skyblue", // ノードカラー
+        },
+        edges: {
+          arrows: "to", // エッジに矢印を付けて有向グラフにする
+          smooth: true, // falseにするとエッジが直線になる
+        },
+      };
+      const network = new Network(container, data, options);
     },
   },
   mounted() {
