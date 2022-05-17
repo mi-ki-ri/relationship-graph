@@ -1,9 +1,11 @@
 <template>
   <main class="container mx-auto flex justify-between items-stretch h-screen">
     <textarea
+    id="myArea"
       class="border p-2 flex-1"
       v-model="inputText"
       @keydown.enter="parseWhenEnter"
+      @keydown.tab.prevent="tabEnter"
     />
     <div class="border p-2 flex-1" id="canvasDiv" />
   </main>
@@ -26,6 +28,16 @@ export default {
     };
   },
   methods: {
+    tabEnter() {
+      //テキストエリアと挿入する文字列を取得
+      var area = document.getElementById("myArea");
+      var text = "  "
+      //カーソルの位置を基準に前後を分割して、その間に文字列を挿入
+      area.value =
+        area.value.substr(0, area.selectionStart) +
+        text +
+        area.value.substr(area.selectionStart);
+    },
     uniq(array) {
       const uniquedArray = [];
       for (const elem of array) {
@@ -75,7 +87,7 @@ export default {
           const matches = [...tcontent.matchAll(re)];
           let target = "";
           let label = "";
-          if (matches[0].length >= 3) {
+          if (matches.length > 0 &&  matches[0].length >= 3) {
             target = matches[0][1].trim();
             label = matches[0][2].trim();
           } else {
@@ -93,7 +105,7 @@ export default {
               return val.label == target;
             }),
             arrows: "to",
-            width: 2,
+            width: 0.5,
             label: label,
           });
         });
